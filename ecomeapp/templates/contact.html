@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock title %}
+{% block body %}
+<p class="text-center ">Contactez-nous</p>
+<div class="container mt-2 d-flex justify-content-center">
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+      
+      </button>
+      
+    </div>
+    {% endfor %}
+    <div class="row w-10">
+        <form action="/contact" method="POST">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="name">Nom complet</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{user.email}}" required>
+            </div>
+            <div class="form-group mb-3">
+                <label for="description">Comment pouvons-nous vous aider?</label>
+                <textarea class="form-control" id="desc" name="desc" rows="3" required></textarea>
+            </div>
+            <div class="form-group mb-3">
+                <label for="number">Numéro de téléphone</label>
+                <input type="number" class="form-control" id="number" name="number" required>
+            </div>
+            <button class="btn btn-dark mb-3 w-100" type="submit">Soumettre</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}

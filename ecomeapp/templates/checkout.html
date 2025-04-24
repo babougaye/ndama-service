@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock title %}
+
+{% block content %}
+<div class="container my-4">
+
+    <!-- Affichage des messages d'alerte -->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+    <!-- Affichage du panier -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <h2 class="h4 text-center">Votre panier</h2>
+            <ul class="list-group list-group-flush" id="cartItems">
+                <!-- Les articles du panier seront ajoutés ici par JavaScript -->
+            </ul>
+            <div class="text-center mt-3">
+                <strong>Total :</strong> <span id="cartTotal">0</span> FCFA
+            </div>
+
+            <!-- Bouton WhatsApp -->
+            <div class="text-center mt-4">
+                <button id="whatsappOrder" class="btn btn-success w-100">Commander via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateCart() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || {};
+        const cartItems = document.getElementById('cartItems');
+        let total = 0;
+        let cartText = '';
+
+        cartItems.innerHTML = '';
+
+        for (let id in cart) {
+            const [qty, name, price] = cart[id];
+            const subTotal = qty * price;
+            total += subTotal;
+            cartItems.innerHTML += `<li class="list-group-item">${name} - ${qty} x ${price} FCFA</li>`;
+            cartText += `${name} - ${qty} x ${price} FCFA\n`;
+        }
+
+        document.getElementById('cartTotal').innerText = total.toFixed(2);
+
+        return { total: total.toFixed(2), text: cartText };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const cartInfo = updateCart();
+
+        document.getElementById('whatsappOrder').addEventListener('click', () => {
+            const whatsappNumber = '221782100118'; // Remplace par ton numéro WhatsApp
+            const message = `
+Nouvelle commande :
+
+Articles :
+${cartInfo.text}
+
+Total : ${cartInfo.total} FCFA
+
+Merci de confirmer la commande en répondant à ce message en envoyant le paiement via :
+- Wave : 78 016 43 82
+- Orange Money : 221 78 210 01 18
+
+N'oubliez pas de mentionner votre nom dans le message de paiement.
+            `;
+            const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        });
+    });
+</script>
+
+{% endblock content %}

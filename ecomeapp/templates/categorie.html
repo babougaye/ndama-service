@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Categorie{% endblock title %}
+{% block content %}
+<h1>Bienvenue chez-nous, ndama-service</h1>
+{% endblock content %}
+
+{% block body %}
+{% load static %}
+<!-- Portfolio Section -->
+<section id="portfolio" class="portfolio section">
+  
+  <!-- Affichage des messages d'alerte -->
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  
+  <!-- Titre de la section -->
+<div class="container-title text-center" data-aos="fade-up">
+  <h2 class="text-danger">Bienvenue dans la boutique</h2>
+  <p><span>Découvrez nos</span> <span class="description-title">Categorie</span></p>
+</div><!-- Fin Section Titre -->
+
+  
+  <!-- Affichage des produits par catégorie -->
+  {% for Categorie, range, nSlides in allProds %}
+  <h3 class="my-3 text-center text-success bg-light">{{ Categorie.0.Categorie }} Flashsale</h3>
+   
+  <div class="container">
+    <div class="row">
+      
+      <!-- Affichage des produits individuels -->
+      {% for i in Categorie %}
+      <div class="col-md-3 mt-3">
+        <div class="card">
+          <img src='/media/{{ i.image }}' class="card-img-top" alt="{{ i.produit_name }}">
+          <div class="card-body">
+            <h5 class="card-title" id="namepr{{ i.id }}">{{ i.produit_name }}</h5>
+            <p class="card-text">{{ i.desc|slice:"0:53" }}...</p>
+            <h6 class="card-title">Prix : <span id="prixpr{{ i.id }}">{{ i.prix }}</span></h6>
+            <span id="divpr{{ i.id }}" class="divpr">
+              <button id="pr{{ i.id }}" class="btn btn-danger btn-sm mt-0">Ajouter au panier</button>
+            </span>
+            <a href="/media/{{ i.image }}"><button class="btn btn-dark btn-sm cart">Voir</button></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+  {% endfor %}
+  
+</section><!-- /Portfolio Section -->
+{% endblock body %}

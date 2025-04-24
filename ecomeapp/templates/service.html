@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock title %}
+{% block content %}
+<h1>Bienvenue chez-nous, ndama-service</h1>
+{% endblock content %}
+
+{% block body %}
+{% load static %}
+<!-- Portfolio Section -->
+<section id="portfolio" class="portfolio section">
+  
+  <!-- Affichage des messages d'alerte -->
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  
+  <!-- Titre de la section -->
+  <div class="container-title text-center" data-aos="fade-up">
+    <h2 class="text-danger">Bienvenue dans la boutique</h2>
+    <p><span>Découvrez nos</span> <span class="description-title">Performances</span></p>
+  </div><!-- Fin Section Titre -->
+
+  <!-- Textes d'accueil et de motivation -->
+  <div class="welcome-section my-5">
+    <p class="text-center">Bienvenue chez Ndama-Service ! Nous sommes ravis de vous accueillir dans notre boutique en ligne. Explorez nos collections soigneusement sélectionnées et trouvez exactement ce dont vous avez besoin. Votre satisfaction est notre priorité, et nous nous engageons à vous offrir la meilleure expérience d'achat.</p>
+
+    <p class="text-center">Découvrez l'excellence à portée de clic ! Chez Ndama-Service, chaque produit est choisi avec soin pour répondre à vos attentes. Profitez de nos offres exclusives et faites-vous plaisir avec nos nouveautés. Commandez aujourd'hui et faites partie de notre communauté de clients satisfaits.</p>
+
+    <p class="text-center">Achetez en toute confiance ! Nous vous garantissons des produits de qualité, un service client exceptionnel et une livraison rapide. Votre bonheur est notre mission, alors parcourez notre boutique et laissez-vous inspirer par nos offres.</p>
+
+    <p class="text-center">Faites partie de la famille Ndama-Service ! Nous sommes plus qu'une simple boutique en ligne, nous sommes une communauté. Rejoignez-nous et bénéficiez d'avantages exclusifs, de réductions spéciales et d'un service personnalisé qui vous fera sentir comme chez vous.</p>
+
+    <p class="text-center">Votre satisfaction, notre priorité ! Nous savons combien il est important de trouver le produit parfait. C'est pourquoi nous mettons tout en œuvre pour vous offrir une expérience d'achat exceptionnelle. Explorez notre gamme et laissez-nous vous montrer ce que l'excellence signifie pour nous.</p>
+  </div><!-- Fin Textes d'accueil et de motivation -->
+
+  <!-- Affichage des produits par catégorie -->
+  {% for Produit, range, nSlides in allProds %}
+  <h3 class="my-3 text-center text-success bg-light">{{ Produit.0.Categorie }} Flashsale</h3>
+   
+  <div class="container">
+    <div class="row">
+      
+      <!-- Affichage des produits individuels -->
+      {% for i in Produit %}
+      <div class="col-md-3 mt-3">
+        <div class="card">
+          <img src='/media/{{ i.image }}' class="card-img-top product-image" alt="{{ i.produit_name }}" height="200px" width="150px">
+          <div class="card-body">
+            <h5 class="card-title" id="namepr{{ i.id }}">{{ i.produit_name }}</h5>
+            <p class="card-text">{{ i.desc|slice:"0:53" }}...</p>
+            <h6 class="card-title">Prix : <span id="prixpr{{ i.id }}">{{ i.prix }}</span></h6>
+            <span id="divpr{{ i.id }}" class="divpr">
+              <button id="pr{{ i.id }}" class="btn btn-danger btn-sm mt-0 cart">Ajouter au panier</button>
+            </span>
+            <a href="/media/{{ i.image }}"><button class="btn btn-dark btn-sm">Voir</button></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+  {% endfor %}
+  
+</section><!-- /Portfolio Section -->
+
+
+
+<!-- Remove these lines -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
+{% endblock body %}
